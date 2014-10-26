@@ -1,10 +1,15 @@
 namespace RestaurantManager.Models
 {
+    using System;
     using RestaurantManager.Interfaces;
 
     public class Dessert : Meal, IDessert
     {
-        private bool withSugar;
+        private const int Order = 40;
+
+        private const string ToStringFormat = "{0}{1}== {2} == ${3}\nPer serving: {4} {5}, {6} kcal\nReady in {7} minutes";
+
+        private bool withSugar = true;
 
         public bool WithSugar
         {
@@ -26,6 +31,26 @@ namespace RestaurantManager.Models
             : base(name, price, calories, quantityPerServing, timeToPrepare)
         {
             this.IsVegan = isVegan;
+        }
+
+        public override int GetOrder()
+        {
+            return Order;
+        }
+
+        public override string ToString()
+        {
+            return String.Format(
+                ToStringFormat,
+                this.withSugar ? "" : "[NO SUGAR] ",
+                this.IsVegan ? "[VEGAN] " : "",
+                this.Name,
+                this.Price,
+                this.QuantityPerServing,
+                this.GetUnitToString(),
+                this.Calories,
+                this.TimeToPrepare
+            );
         }
     }
 }

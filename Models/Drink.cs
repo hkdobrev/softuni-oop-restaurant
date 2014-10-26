@@ -5,6 +5,8 @@ namespace RestaurantManager.Models
 
     public class Drink : Recipe, IDrink
     {
+        private const int Order = 10;
+
         private const int MaximumCalories = 100;
 
         private const string TooMuchCaloriesErrorMessage = "Calories in drinks must not exceed {0} calories. {1} given.";
@@ -13,6 +15,8 @@ namespace RestaurantManager.Models
         private const int MaximumTimeToPrepare = 20;
 
         private const string TooMuchTimeToPrepareErrorMessage = "Time to prepare a drink must not exceed {0}. {1} given.";
+
+        private const string ToStringFormat = "== {0} == ${1}\nPer serving: {2} {3}, {4} kcal\nReady in {5} minutes\nCarbonated: {6}";
 
         private bool carbonated;
 
@@ -65,6 +69,30 @@ namespace RestaurantManager.Models
         {
             this.carbonated = isCarbonated;
             this.Unit = MetricUnit.Milliliters;
+        }
+
+        public override int GetOrder()
+        {
+            return Order;
+        }
+
+        public override string ToString()
+        {
+            return String.Format(
+                ToStringFormat,
+                this.Name,
+                this.Price,
+                this.QuantityPerServing,
+                this.GetUnitToString(),
+                this.Calories,
+                this.TimeToPrepare,
+                this.IsCarbonated ? "yes" : "no"
+            );
+        }
+
+        private string GetUnitToString()
+        {
+            return "ml";
         }
     }
 }

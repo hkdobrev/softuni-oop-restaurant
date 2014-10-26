@@ -146,5 +146,7 @@ namespace RestaurantManager.Models
             this.quantityPerServing = quantityPerServing;
             this.timeToPrepare = timeToPrepare;
         }
+
+        public abstract int GetOrder();
     }
 }

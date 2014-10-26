@@ -1,14 +1,26 @@
 namespace RestaurantManager.Models
 {
     using System;
-    using RestaurantManager.Interfaces;
+    using System.Linq;
     using System.Collections.Generic;
+    using RestaurantManager.Interfaces;
 
     public class Restaurant : IRestaurant
     {
         private const string NullOrEmptyErrorMessage = "The {0} is required.";
 
-        private const string MenuHeader = "***** {0} - {1} *****\n{2}";
+        private const string UnsupportedType = "Type {0} is not supported.";
+
+        private const string MenuHeader = "***** {0} - {1} *****";
+
+        private const string MenuGroupHeading = "~~~~~ {0} ~~~~~";
+
+        private readonly static Dictionary <Type, string> types = new Dictionary<Type, string>{
+            {typeof (Drink), "Drinks"},
+            {typeof (Salad), "Salads"},
+            {typeof (MainCourse), "Main Courses"},
+            {typeof (Dessert), "Desserts"}
+        };
 
         private string name;
 
@@ -72,14 +84,62 @@ namespace RestaurantManager.Models
 
         public string PrintMenu()
         {
-            return String.Format(MenuHeader, this.Name, this.Location, "No recipes... yet");
+            return GetMenuHeader() + "\n" + GetMenuRecipes();
+        }
+
+        private string GetMenuHeader()
+        {
+            return String.Format(MenuHeader, this.Name, this.Location);
+        }
+
+        private string GetMenuRecipes()
+        {
+            if (this.recipes.Count == 0)
+            {
+                return "No recipes... yet";
+            }
+
+            var recipeGroups = this.recipes
+                .GroupBy (u => u.GetType())
+                .Select(grp => grp.ToList())
+                .ToList();
+
+            List<string> result = new List<string>();
+
+            foreach (var recipeGroup in recipeGroups)
+            {
+                IEnumerator<IRecipe> recipeEnumerator = recipeGroup.GetEnumerator();
+                recipeEnumerator.MoveNext();
+                Recipe firstRecipe = (Recipe) recipeEnumerator.Current;
+                result.Add(String.Format(
+                    MenuGroupHeading,
+                    Restaurant.GetMenuGroupName(firstRecipe.GetType()).ToUpper()
+                ));
+
+                foreach (var recipe in recipeGroup)
+                {
+                    result.Add(recipe.ToString());
+                }
+            }
+
+            return String.Join ("\n", result);
         }
 
         public Restaurant(string name, string location)
         {
             this.Name = name;
             this.Location = location;
-            this.recipes = new System.Collections.Generic.List<IRecipe>();
+            this.recipes = new List<IRecipe>();
+        }
+
+        private static string GetMenuGroupName(Type type)
+        {
+            if (!Restaurant.types.ContainsKey(type))
+            {
+                throw new ArgumentException(String.Format(UnsupportedType, type));
+            }
+
+            return Restaurant.types[type];
         }
     }
 }

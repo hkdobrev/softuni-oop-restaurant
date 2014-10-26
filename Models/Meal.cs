@@ -32,5 +32,10 @@ namespace RestaurantManager.Models
         {
             this.Unit = MetricUnit.Grams;
         }
+
+        protected string GetUnitToString()
+        {
+            return "ml";
+        }
     }
 }
