@@ -81,7 +81,7 @@ namespace RestaurantManager.Models
             return String.Format(
                 ToStringFormat,
                 this.Name,
-                this.Price,
+                this.GetFormattedPrice(),
                 this.QuantityPerServing,
                 this.GetUnitToString(),
                 this.Calories,

@@ -45,7 +45,7 @@ namespace RestaurantManager.Models
                 this.withSugar ? "" : "[NO SUGAR] ",
                 this.IsVegan ? "[VEGAN] " : "",
                 this.Name,
-                this.Price,
+                this.GetFormattedPrice(),
                 this.QuantityPerServing,
                 this.GetUnitToString(),
                 this.Calories,

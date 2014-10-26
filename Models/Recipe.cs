@@ -148,5 +148,10 @@ namespace RestaurantManager.Models
         }
 
         public abstract int GetOrder();
+
+        public string GetFormattedPrice()
+        {
+            return decimal.Round(this.Price, 2, MidpointRounding.AwayFromZero).ToString();
+        }
     }
 }
