@@ -68,3 +68,6 @@ Pods
 
 #Remove Xamarin Components - hope they autodownload
 Components/
+
+# Ignore tests and test data
+/tests/
