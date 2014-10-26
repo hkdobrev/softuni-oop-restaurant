@@ -16,7 +16,7 @@ namespace RestaurantManager.Models
 
         private const string TooMuchTimeToPrepareErrorMessage = "Time to prepare a drink must not exceed {0}. {1} given.";
 
-        private const string ToStringFormat = "== {0} == ${1}\nPer serving: {2} {3}, {4} kcal\nReady in {5} minutes\nCarbonated: {6}";
+        private const string ToStringFormat = "==  {0} == ${1}\nPer serving: {2} {3}, {4} kcal\nReady in {5} minutes\nCarbonated: {6}";
 
         private bool carbonated;
 

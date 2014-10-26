@@ -7,7 +7,7 @@ namespace RestaurantManager.Models
     {
         private const int Order = 30;
 
-        private const string ToStringFormat = "{0}== {1} == ${2}\nPer serving: {3} {4}, {5} kcal\nReady in {6} minutes\nType: {7}";
+        private const string ToStringFormat = "{0}==  {1} == ${2}\nPer serving: {3} {4}, {5} kcal\nReady in {6} minutes\nType: {7}";
 
         private MainCourseType type;
 

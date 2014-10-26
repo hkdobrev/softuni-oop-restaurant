@@ -9,7 +9,7 @@ namespace RestaurantManager.Models
 
         private const string InvalidToggleVeganOperationMessage = "A Salad is always vegan.";
 
-        private const string ToStringFormat = "{0}== {1} == ${2}\nPer serving: {3} {4}, {5} kcal\nReady in {6} minutes\nContains pasta: {7}";
+        private const string ToStringFormat = "{0}==  {1} == ${2}\nPer serving: {3} {4}, {5} kcal\nReady in {6} minutes\nContains pasta: {7}";
 
         private bool containsPasta;
 
@@ -30,7 +30,7 @@ namespace RestaurantManager.Models
             : base(name, price, calories, quantityPerServing, timeToPrepare)
         {
             this.containsPasta = containsPasta;
-            this.IsVegan = false;
+            this.IsVegan = true;
         }
 
         public override int GetOrder()
