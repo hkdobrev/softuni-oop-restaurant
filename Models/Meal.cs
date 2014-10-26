@@ -35,7 +35,7 @@ namespace RestaurantManager.Models
 
         protected string GetUnitToString()
         {
-            return "ml";
+            return "g";
         }
     }
 }
