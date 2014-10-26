@@ -15,6 +15,13 @@ namespace RestaurantManager.Models
 
         private const string MenuGroupHeading = "~~~~~ {0} ~~~~~";
 
+        private readonly static List <string> menuOrder = new List<string>{
+            {"Drink"},
+            {"Salad"},
+            {"MainCourse"},
+            {"Dessert"}
+        };
+
         private readonly static Dictionary <Type, string> types = new Dictionary<Type, string>{
             {typeof (Drink), "Drinks"},
             {typeof (Salad), "Salads"},
@@ -100,9 +107,18 @@ namespace RestaurantManager.Models
             }
 
             var recipeGroups = this.recipes
-                .GroupBy (u => u.GetType())
+                .GroupBy (r => r.GetType())
                 .Select(grp => grp.ToList())
+                .OrderBy( (x, y) => {
+                    List<IRecipe>.Enumerator xEnumerator = x.GetEnumerator();
+                    List<IRecipe>.Enumerator yEnumerator = y.GetEnumerator();
+                    xEnumerator.MoveNext();
+                    yEnumerator.MoveNext();
+
+                    return Restaurant.menuOrder.IndexOf(xEnumerator.Current.GetType().Name) - Restaurant.menuOrder.IndexOf(yEnumerator.Current.GetType().Name);
+                })
                 .ToList();
+
 
             List<string> result = new List<string>();
 
