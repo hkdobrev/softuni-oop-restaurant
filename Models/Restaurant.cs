@@ -109,16 +109,16 @@ namespace RestaurantManager.Models
             var recipeGroups = this.recipes
                 .GroupBy (r => r.GetType())
                 .Select(grp => grp.ToList())
-                .OrderBy( (x, y) => {
-                    List<IRecipe>.Enumerator xEnumerator = x.GetEnumerator();
-                    List<IRecipe>.Enumerator yEnumerator = y.GetEnumerator();
-                    xEnumerator.MoveNext();
-                    yEnumerator.MoveNext();
-
-                    return Restaurant.menuOrder.IndexOf(xEnumerator.Current.GetType().Name) - Restaurant.menuOrder.IndexOf(yEnumerator.Current.GetType().Name);
-                })
                 .ToList();
 
+            recipeGroups.Sort( (x, y) => {
+                List<IRecipe>.Enumerator xEnumerator = x.GetEnumerator();
+                List<IRecipe>.Enumerator yEnumerator = y.GetEnumerator();
+                xEnumerator.MoveNext();
+                yEnumerator.MoveNext();
+
+                return Restaurant.menuOrder.IndexOf(xEnumerator.Current.GetType().Name) - Restaurant.menuOrder.IndexOf(yEnumerator.Current.GetType().Name);
+            });
 
             List<string> result = new List<string>();
 
